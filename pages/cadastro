@@ -1,0 +1,9 @@
+<h2> Criar conta </h2>
+<input type="text" id="usuario" placeholder="Nome de usuario">
+<br></br>
+<input type="password" id="password" placeholder="Digite a senha"> 
+<button id="botao-senha">Mostrar</button>
+<br></br>
+<button type="button" id="button-create"> Criar Conta </button>
+<p id="mensagem"></p>
+
