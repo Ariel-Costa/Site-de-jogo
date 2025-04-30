@@ -73,8 +73,7 @@
         <p>&copy; VALHALLA - DIREITOS RESERVADOS.</p>
     </footer>
 
-    <script src="accScript.js"></script>
-    <script src="jsOt.js"></script>
+    <script src="siteScript.js"></script>
 
 </body>
 </html>
