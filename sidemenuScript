@@ -1,0 +1,91 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const menuLinks = document.querySelectorAll(".menu-link");
+    const subLinks = document.querySelectorAll(".submenu a");
+    const mainContent = document.getElementById("main-content");
+
+    //toggle do menu
+    menuLinks.forEach(link => {
+        link.addEventListener("click", function () {
+            const submenu = this.nextElementSibling;
+            if (submenu && submenu.classList.contains("submenu")) {
+                submenu.classList.toggle("show");
+            } else {
+                loadContent(this.textContent.trim());
+            }
+        });
+    });
+
+    //clique nos items do menu
+    subLinks.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+            const page = this.dataset.page;
+            loadContent(page);
+        });
+    });
+
+    //funçao de carregamento do conteudo
+    function loadContent(pageName) {
+      const fileName = pageName.toLowerCase().replace(/\s+/g, "-")
+
+      fetch(`pages/${fileName}.html`)
+      .then(response => {
+        if (!response.ok) throw new Error("Pagina não encontrada.");
+        return response.text();
+    })
+    .then(data => {
+        mainContent.innerHTML = data; 
+
+
+
+        if(fileName === "cadastro") {
+             setTimeout (() => {  
+                const botaoSenha = document.getElementById("botao-senha");
+                const botaoCriar = document.getElementById("button-create");
+
+                if (botaoSenha){
+                    botaoSenha.addEventListener("click", toggleSenha);
+        }
+
+               if(botaoCriar){
+                botaoCriar.addEventListener("click", criarConta );
+              }
+             }, 10);
+            }
+        })
+        .catch(error => {
+            mainContent.innerHTML = `<p> Erro ao carregar a pagina: ${error.message}</p>`;
+        });
+    }
+});
+
+let senhaVisivel = false;
+
+//globais
+function toggleSenha(){
+    const senhaInput = document.getElementById("password");
+    const botao = document.getElementById("botao-senha");
+
+
+    if(senhaVisivel){ 
+            senhaInput.type = "password";
+            botao.textContent = "Mostrar";
+    } else {
+        senhaInput.type = "text";
+        botao.textContent = "Esconder";
+    }
+    senhaVisivel = !senhaVisivel;
+}
+function criarConta(){
+   const usuario = document.getElementById("usuario").value.trim();
+   const senha = document.getElementById("password").value.trim();
+   const mensagem = document.getElementById("mensagem");
+
+   if( usuario === "" || senha=== "" ){
+    mensagem.textContent = "PREENCHA TODOS OS CAMPOS."; 
+    mensagem.style.color = "red";
+} else  {
+    mensagem.textContent = "CONTA CRIADA COM SUCESSO.";
+    mensagem.style.color = " lightgreen";
+} 
+}
